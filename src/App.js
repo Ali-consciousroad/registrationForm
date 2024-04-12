@@ -8,7 +8,7 @@ const PasswordErrorMessage = () => {
    <p className="FieldError">Password should have at least 8 characters</p> 
  ); 
 }; 
-
+  
 function App() { 
  // Define state variables for form fields and validation
  const [firstName, setFirstName] = useState(""); 
@@ -23,14 +23,16 @@ function App() {
  // Define a function to check if the form is valid
  const getIsFormValid = () => { 
    return ( 
-     firstName && // Check if firstName is not empty
+     // Check if firstName is not empty 
+     // An empty string is evaluated to false and a non empty string to true in JS
+     firstName && 
      validateEmail(email) && // Validate the email using a custom function
      password.value.length >= 8 && // Check if password has at least 8 characters
      role !== "role" // Check if a role other than the default "role" is selected
    ); 
  }; 
 
- // Define a function to clear form fields
+ // Define a function to clear and reinitialize the form fields when called
  const clearForm = () => { 
    setFirstName(""); 
    setLastName(""); 
@@ -44,7 +46,8 @@ function App() {
 
  // Define a function to handle form submission
  const handleSubmit = (e) => { 
-   e.preventDefault(); 
+   // Prevent the default behavior to avoid the page refresh
+   e.preventDefault();
    alert("Account created!"); 
    clearForm(); 
  }; 
@@ -59,7 +62,8 @@ function App() {
              First name <sup>*</sup> 
            </label> 
            <input 
-             value={firstName} 
+             {/* Keep track of the changes and update the firstName state variable */}
+             value={firstName} {/* Make the state a controlled component */}
              onChange={(e) => { 
                setFirstName(e.target.value); 
              }} 
@@ -117,6 +121,7 @@ function App() {
              <option value="business">Business</option> 
            </select> 
          </div> 
+         {/* Disable the button if the form is not valid */}
          <button type="submit" disabled={!getIsFormValid()}> 
            Create account 
          </button> 

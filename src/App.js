@@ -61,9 +61,10 @@ function App() {
            <label> 
              First name <sup>*</sup> 
            </label> 
+           {/* Keep track of the changes and update the firstName state variable */}
+           {/* Make the state a controlled component */}
            <input 
-             {/* Keep track of the changes and update the firstName state variable */}
-             value={firstName} {/* Make the state a controlled component */}
+             value={firstName} 
              onChange={(e) => { 
                setFirstName(e.target.value); 
              }} 

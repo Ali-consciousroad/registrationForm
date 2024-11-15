@@ -8,11 +8,23 @@ const PasswordErrorMessage = () => {
    <p className="FieldError">Password should have at least 8 characters</p> 
  ); 
 }; 
+
+const NameErrorMessage = () => {
+  return (
+    <p className="FieldError">Name should have at least 3 characters</p>
+  );
+};
   
 function App() { 
  // Define state variables for form fields and validation
- const [firstName, setFirstName] = useState(""); 
- const [lastName, setLastName] = useState(""); 
+ const [firstName, setFirstName] = useState({
+    value: "",
+    isTouched: false,
+ }); 
+ const [lastName, setLastName] = useState({
+    value: "",
+    isTouched: false,
+ }); 
  const [email, setEmail] = useState(""); 
  const [password, setPassword] = useState({ 
    value: "", 
@@ -23,9 +35,11 @@ function App() {
  // Define a function to check if the form is valid
  const getIsFormValid = () => { 
    return ( 
+     // Manual validation check
      // Check if firstName is not empty 
      // An empty string is evaluated to false and a non empty string to true in JS
-     firstName && 
+     firstName.value.length >= 3 &&
+     lastName.value.length >= 3 &&
      validateEmail(email) && // Validate the email using a custom function
      password.value.length >= 8 && // Check if password has at least 8 characters
      role !== "role" // Check if a role other than the default "role" is selected
@@ -34,8 +48,14 @@ function App() {
 
  // Define a function to clear and reinitialize the form fields when called
  const clearForm = () => { 
-   setFirstName(""); 
-   setLastName(""); 
+   setFirstName({
+    value: "",
+    isTouched: false,
+   }); 
+   setLastName({ 
+    value: "", 
+    isTouched: false, 
+  }); 
    setEmail(""); 
    setPassword({ 
      value: "", 
@@ -64,22 +84,34 @@ function App() {
            {/* Keep track of the changes and update the firstName state variable */}
            {/* Make the state a controlled component */}
            <input 
-             value={firstName} 
+             value={firstName.value} 
              onChange={(e) => { 
-               setFirstName(e.target.value); 
+               setFirstName({ ...firstName, value: e.target.value}); 
+             }}
+             onBlur={(e) => { 
+              setFirstName({ ...firstName, isTouched: true}); 
              }} 
              placeholder="First name" 
-           /> 
+             />
+             {firstName.isTouched && firstName.value.length < 3 ? ( 
+              <NameErrorMessage /> 
+            ) : null} 
          </div> 
          <div className="Field"> 
            <label>Last name</label> 
            <input 
-             value={lastName} 
+             value={lastName.value} 
              onChange={(e) => { 
-               setLastName(e.target.value); 
+               setLastName({ ...lastName, value: e.target.value}); 
+             }} 
+             onBlur={(e) => { 
+               setLastName({ ...lastName, isTouched: true}); 
              }} 
              placeholder="Last name" 
            /> 
+           {lastName.isTouched && lastName.value.length < 3 ? ( 
+             <NameErrorMessage /> 
+           ) : null} 
          </div> 
          <div className="Field"> 
            <label> 

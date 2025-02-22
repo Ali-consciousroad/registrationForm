@@ -45,7 +45,7 @@ function App() {
      lastName.value.length >= 3 &&
      validateEmail(email.value) && // Validate the email using a custom function
      password.value.length >= 8 && // Check if password has at least 8 characters
-     role !== "role" // Check if a role other than the default "role" is selected
+     role == "individual" || role == "business" // Check if a role other than the default "role" is selected
    ); 
  }; 
 

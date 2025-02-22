@@ -25,7 +25,10 @@ function App() {
     value: "",
     isTouched: false,
  }); 
- const [email, setEmail] = useState(""); 
+ const [email, setEmail] = useState({
+    value: "",
+    isTouched: false,
+ }); 
  const [password, setPassword] = useState({ 
    value: "", 
    isTouched: false, 
@@ -35,12 +38,12 @@ function App() {
  // Define a function to check if the form is valid
  const getIsFormValid = () => { 
    return ( 
-     // Manual validation check
+     // Manual validation checkf
      // Check if firstName is not empty 
      // An empty string is evaluated to false and a non empty string to true in JS
      firstName.value.length >= 3 &&
      lastName.value.length >= 3 &&
-     validateEmail(email) && // Validate the email using a custom function
+     validateEmail(email.value) && // Validate the email using a custom function
      password.value.length >= 8 && // Check if password has at least 8 characters
      role !== "role" // Check if a role other than the default "role" is selected
    ); 
@@ -56,7 +59,10 @@ function App() {
     value: "", 
     isTouched: false, 
   }); 
-   setEmail(""); 
+   setEmail({
+    value: "",
+    isTouched: false,
+   }); 
    setPassword({ 
      value: "", 
      isTouched: false, 
@@ -118,10 +124,13 @@ function App() {
              Email address <sup>*</sup> 
            </label> 
            <input 
-             value={email} 
+             value={email.value} 
              onChange={(e) => { 
-               setEmail(e.target.value); 
+               setEmail({ ...email, value: e.target.value}); 
              }} 
+             onBlur={(e) => {
+              setEmail({ ...email, isTouched: true});
+             }}
              placeholder="Email address" 
            /> 
          </div> 
